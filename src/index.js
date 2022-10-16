@@ -15,27 +15,65 @@ const hendleSubmit = event => {
   const searchingQuery = searchQuery.value.trim().toLowerCase();
   if (!searchingQuery) {
     Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
+      'Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
     );
     return;
   }
   pixabay.searchQuery = searchingQuery;
+  clearPage();
 
-  pixabay.getPhotos().then(({ hits }) => {
-    const markup = createGallery(hits);
-    // console.log(markup);
-    refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
-  });
+  pixabay
+    .getPhotos()
+    .then(({ hits, total }) => {
+      if (hits.length === 0) {
+        Notify.info(
+          `За вашим запитом "${searchingQuery}" зображень не знайдено`
+        );
+        return;
+      }
+
+      const markup = createGallery(hits);
+      refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
+
+      pixabay.calculateTotalPages(total);
+      Notify.success(
+        `За вашим запитом "${searchingQuery}" знайдено ${total} зображень`
+      );
+      if (pixabay.isShowLoadMore) {
+        refs.loadMoreBtn.classList.remove('is-hidden');
+      }
+    })
+    .catch(error => {
+      Notify.failure(error.message, 'Щось пішло не так!');
+      clearPage();
+    });
 };
 
 const onLadMore = () => {
   pixabay.incrementPage();
-  pixabay.getPhotos().then(({ hits }) => {
-    const markup = createGallery(hits);
-    // console.log(markup);
-    refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
-  });
+
+  if (!pixabay.isShowLoadMore) {
+    refs.loadMoreBtn.classList.add('is-hidden');
+  }
+
+  pixabay
+    .getPhotos()
+    .then(({ hits }) => {
+      const markup = createGallery(hits);
+      // console.log(markup);
+      refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
+    })
+    .catch(error => {
+      Notify.failure(error.message, 'Щось пішло не так!');
+      clearPage();
+    });
 };
 
 refs.inputRef.addEventListener('submit', hendleSubmit);
-refs.ladMoreBtn.addEventListener('click', onLadMore);
+refs.loadMoreBtn.addEventListener('click', onLadMore);
+
+function clearPage() {
+  pixabay.resetPage();
+  refs.markupGalleryRef.innerHTML = '';
+  refs.loadMoreBtn.classList.add('is-hidden');
+}

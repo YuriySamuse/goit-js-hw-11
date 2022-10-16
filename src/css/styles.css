@@ -18,3 +18,19 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gallery {
+  display: flex;
+}
+
+.gallery-item {
+}
+
+.info {
+}
