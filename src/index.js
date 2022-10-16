@@ -3,6 +3,8 @@ import { PixabayAPI } from './js/PixabayAPI';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { createGallery } from './js/createGallery';
 import { refs } from './js/refs';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const pixabay = new PixabayAPI();
 // console.log(pixabay);
