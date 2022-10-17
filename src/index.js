@@ -6,6 +6,12 @@ import { refs } from './js/refs';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionClass: 'custom-caption',
+});
+
 const pixabay = new PixabayAPI();
 // console.log(pixabay);
 
@@ -64,6 +70,8 @@ const onLadMore = () => {
       const markup = createGallery(hits);
       // console.log(markup);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
+
+      lightbox.refresh();
     })
     .catch(error => {
       Notify.failure(error.message, 'Щось пішло не так!');
