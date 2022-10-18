@@ -71,6 +71,7 @@ const onLadMore = () => {
       const markup = createGallery(hits);
       // console.log(markup);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
+      lightbox.refresh();
     })
     .catch(error => {
       Notify.failure(error.message, 'Щось пішло не так!');
