@@ -12,7 +12,7 @@ export function createGallery(photos) {
       }) => {
         return /*HTML*/ `<a class="gellery__item" href="${largeImageURL}">
         <div class="photo-card">
-          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+          <img class='photo-card__img' src="${webformatURL}" alt="${tags}" loading="lazy" />
           <div class="info">
             <p class="info-item">
               <b>Likes: ${likes}</b>

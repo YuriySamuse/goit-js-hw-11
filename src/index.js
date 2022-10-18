@@ -42,6 +42,7 @@ const hendleSubmit = event => {
 
       const markup = createGallery(hits);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
+      lightbox.refresh();
 
       pixabay.calculateTotalPages(total);
       Notify.success(
@@ -70,8 +71,6 @@ const onLadMore = () => {
       const markup = createGallery(hits);
       // console.log(markup);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
-
-      lightbox.refresh();
     })
     .catch(error => {
       Notify.failure(error.message, 'Щось пішло не так!');

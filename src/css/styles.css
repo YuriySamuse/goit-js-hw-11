@@ -12,17 +12,45 @@ body {
   line-height: 1.5;
 }
 
+:root {
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-duration: 250ms;
+  --transition: var(--timing-function) var(--animation-duration);
+  --main-txt-cl: #212121;
+  --main-cl: #5a7cff;
+  --main-bg-cl: #e3e9ff;
+}
+
 /*container*/
 
 .container {
-  width: 1200px;
-  margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+}
+
+#search-box {
+  font: inherit;
+  padding: 8px;
+  max-width: 320px;
+  margin-bottom: 16px;
 }
 
 .search-form {
+  display: flex;
+  justify-content: center;
   align-items: center;
+}
+.search-input {
+  display: block;
+  width: 300px;
+  padding: 0 20px;
+  background: #e9eff6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .search-form--wrap {
@@ -33,29 +61,69 @@ body {
   border-color: bisque;
 }
 
+.search-btn {
+  border: 1px solid;
+  border-radius: 5px;
+}
+
 .is-hidden {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
 }
 
-.gallery {
+.gellery--wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 30px;
+  padding: 50px 30px;
+}
+
+.gallery {
+  display: grid;
+  max-width: 1640px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 12px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--main-txt-cl);
 }
 
 .gellery__item {
-  flex-basis: calc(100% / 4 - 30px);
-  margin-left: 30px;
-  margin-bottom: 30px;
+  position: relative;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+  display: block;
   text-decoration: none;
-  color: black;
+  color: currentColor;
+  overflow: hidden;
+}
+.gellery__item:hover {
+  cursor: zoom-in;
+}
+.gellery__item:hover .photo-card__img {
+  transform: scale(1.03);
+}
+
+.photo-card__img {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform var(--transition);
 }
 
 .info {
+  position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+  column-gap: 10px;
 }
 .info-item {
-  margin: 10px;
+  margin: 0;
+  text-align: center;
 }
