@@ -38,7 +38,7 @@ const hendleSubmit = event => {
         return;
       }
 
-      console.log(pixabay);
+      //   console.log(pixabay);
 
       const markup = createGallery(hits);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
