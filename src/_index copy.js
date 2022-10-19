@@ -1,5 +1,5 @@
 import './css/styles.css';
-import PixabayAPI from './js/PixabayAPI';
+import { PixabayAPI } from './js/PixabayAPI';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { createGallery } from './js/createGallery';
 import { refs } from './js/refs';
@@ -17,28 +17,28 @@ const pixabay = new PixabayAPI();
 
 const hendleSubmit = event => {
   event.preventDefault();
-  clearPage();
-  const inputQuery = event.currentTarget.elements.searchQuery.value
-    .trim()
-    .toLowerCase();
-  if (inputQuery === '') {
+  const {
+    elements: { searchQuery },
+  } = event.currentTarget;
+  const searchingQuery = searchQuery.value.trim().toLowerCase();
+  if (!searchingQuery) {
     Notify.failure(
       'Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
     );
     return;
   }
-  pixabay.query = inputQuery;
+  pixabay.searchQuery = searchingQuery;
   clearPage();
 
   pixabay
     .getPhotos()
     .then(({ hits, total }) => {
       if (hits.length === 0) {
-        Notify.info(`За вашим запитом "${inputQuery}" зображень не знайдено`);
+        Notify.info(
+          `За вашим запитом "${searchingQuery}" зображень не знайдено`
+        );
         return;
       }
-
-      console.log(pixabay);
 
       const markup = createGallery(hits);
       refs.markupGalleryRef.insertAdjacentHTML('beforeend', markup);
@@ -46,7 +46,7 @@ const hendleSubmit = event => {
 
       pixabay.calculateTotalPages(total);
       Notify.success(
-        `За вашим запитом "${inputQuery}" знайдено ${total} зображень`
+        `За вашим запитом "${searchingQuery}" знайдено ${total} зображень`
       );
       if (pixabay.isShowLoadMore) {
         refs.loadMoreBtn.classList.remove('is-hidden');
